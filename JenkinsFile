@@ -4,6 +4,7 @@ pipeline{
     environment{
         imageName = "soumyakatta/react-app"
         registryCredential = "soumyakatta"
+        "privilegedMode": true
         dockerImage = ''
     }
     stages {
