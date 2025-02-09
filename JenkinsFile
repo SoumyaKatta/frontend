@@ -2,7 +2,7 @@ pipeline{
     agent any
     tools {nodejs "node"}
     environment{
-        imageName = "soumyakatta/jenkins-app"
+        imageName = "soumyakatta/react-app"
         registryCredential = "soumyakatta"
         dockerImage = ''
     }
