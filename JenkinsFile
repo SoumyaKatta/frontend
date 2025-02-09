@@ -15,8 +15,7 @@ pipeline{
         stage("Building image") {
              steps{
                  script{
-                    dockerImage = docker build -t imageName
-                    env.DOCKER_HOST = 'unix:///var/run/docker.sock'
+                    dockerImage = sh 'docker build -t soumyakatta/react-app .'
                  }
              }
         }
