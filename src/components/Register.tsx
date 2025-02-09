@@ -18,8 +18,8 @@ function Register() {
         body: JSON.stringify({ username, email, password }),
       });
       console.log("heelelo", res.status);
-      const data = await res.json();
-      if (res.status == 201) {
+      // const data = await res.json();
+      if (res.status === 201) {
         navigate("/");
       }
     } catch (err) {
