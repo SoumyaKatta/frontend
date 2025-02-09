@@ -1,10 +1,31 @@
 pipeline{
     agent any
     tools {nodejs "node"}
+    environment{
+        imageName = "soumyakatta/react-app"
+        registryCredential = "soumyakatta"
+        dockerImage = ''
+    }
     stages {
         stage("Install dependencies"){
             steps{      
                 sh "npm install"
+            }
+        }
+        stage("Building image") {
+             steps{
+                 script{
+                    dockerImage = docker.build imageName
+                 }
+             }
+        }
+        stage("deploying image"){
+            steps{
+                script {
+                    docker.withRegistry("https://registry.hub.docker.com", 'dockerhub-creds'){
+                       dockerImage.push("${env.BUILD_NUMBER}")
+                    }
+                }
             }
         }
 
