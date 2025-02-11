@@ -1,5 +1,7 @@
 pipeline{
-    agent any
+     agent {
+       label 'docker' 
+     }
     tools {nodejs "node"}
     environment{
         imageName = "soumyakatta/react-app"
