@@ -1,7 +1,4 @@
 pipeline{
-     agent {
-       label 'docker' 
-     }
     tools {nodejs "node"}
     environment{
         imageName = "soumyakatta/react-app"
@@ -17,7 +14,7 @@ pipeline{
         stage("Building image") {
              steps{
                  script{
-                    dockerImage = docker.build imageName
+                    sh 'docker build -t soumyakatta/react-app'
                  }
              }
         }
