@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    tools {nodejs "node" docker "docker"}
+    tools {nodejs "node"}
     environment{
         imageName = "soumyakatta/react-app"
         registryCredential = "soumyakatta"
