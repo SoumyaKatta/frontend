@@ -1,37 +1,31 @@
-pipeline {
-agent any
-
-   environment {
-    PATH = "/usr/local/bin:$PATH"
-    DOCKER_EXECUTABLE = "/usr/local/bin/docker"
-    IMAGENAME = "soumyakatta/react-app"
-    DOCKER_PATH = '/Applications/Docker.app/Contents/Resources/bin/docker'
-    REGISTRY_CREDENTIAL = 'docker-hub'
-    CONTAINER_NAME = "my-container"
-}
-
-stages {
-    stage('Cloning Git') {
-        steps {
-            git(
-                url: 'https://github.com/SoumyaKatta/frontend.git',
-                branch: 'docker_task_one',
-                credentialsId: 'git-hub'
-            )
-        }
+pipeline{
+    agent any
+    environment{
+        PATH = "/usr/local/bin:$PATH"
+        IMAGENAME = "soumyakatta/react-app"
+        dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
+        registryCredential = "docker-hub"
+        dockerImage = ''
     }
-
-    stage('Building Image') {
-        steps {
-            sh 'node --version'
-            sh "docker build -t ${IMAGENAME} ."
+    stages {
+        stage("Install dependencies"){
+            steps{      
+                sh "npm install"
+            }
         }
-    }
-
-    stage('CI') {
-        steps {
-            withCredentials([usernamePassword(
-                credentialsId: REGISTRY_CREDENTIAL,
+        stage("Building image") {
+             steps{
+                 script{
+                    // dockerImage = docker.build IMAGENAME 
+                   sh "docker build -t ${IMAGENAME} ."
+                 }
+             }
+        }
+  
+        stage('CI') {
+            steps {
+               withCredentials([usernamePassword(
+                credentialsId: registryCredential,
                 passwordVariable: 'DOCKER_PASSWORD',
                 usernameVariable: 'DOCKER_USERNAME'
             )]) {
@@ -43,20 +37,5 @@ stages {
         }
     }
 
-    // stage('CD') {
-    //     steps {
-    //         sh "docker pull ${IMAGENAME}:latest"
-    //         sh "docker stop ${CONTAINER_NAME} || true"
-    //         sh "docker rm ${CONTAINER_NAME} || true"
-    //         sh "docker run -d --name ${CONTAINER_NAME} ${IMAGENAME}:latest"
-    //     }
-    // }
-
-    // stage('Remove Unused Docker Image') {
-    //     steps {
-    //         sh "docker rmi -f ${IMAGENAME}:${BUILD_NUMBER}"
-    //         sh "docker rmi -f ${IMAGENAME}:latest"
-    //     }
-    // }
-}
+    }
 }
