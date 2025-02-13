@@ -16,7 +16,6 @@ pipeline{
         stage("Building image") {
              steps{
                  script{
-                    // dockerImage = docker.build IMAGENAME 
                    sh "docker build -t ${IMAGENAME} ."
                  }
              }
@@ -34,6 +33,14 @@ pipeline{
                 sh "docker push ${IMAGENAME}:${BUILD_NUMBER}"
                 sh "docker push ${IMAGENAME}:latest"
             }
+        }
+    }
+        stage('CD') {
+            steps {
+                sh "docker pull ${IMAGENAME}:latest"
+                // sh "docker stop ${CONTAINER_NAME} || true"
+                // sh "docker rm ${CONTAINER_NAME} || true"
+                sh "docker run -d --name ${CONTAINER_NAME} ${IMAGENAME}:latest"
         }
     }
 
