@@ -5,6 +5,7 @@ pipeline{
         IMAGENAME = "soumyakatta/react-app"
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
         registryCredential = "docker-hub"
+        containerName = 'react-container'
         dockerImage = ''
     }
     stages {
@@ -19,6 +20,22 @@ pipeline{
                    dockerImage = docker.build IMAGENAME + ":$BUILD_NUMBER" 
                 }
             } 
+        }
+        stage('Running image') {
+            steps {
+                script {
+                    sh "docker run -d --name ${containerName} ${IMAGENAME}:latest"
+                    echo 'running image succesfully'
+                }
+            }
+        }
+        stage('Stop and Remove Container') {
+            steps {
+                script {
+                    sh "docker stop ${containerName} || true"
+                    sh "docker rm ${containerName} || true"
+                }
+            }
         }
 
         stage('push the docker Image') {
