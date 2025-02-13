@@ -1,6 +1,5 @@
 pipeline{
     agent any
-    // tools {nodejs "node" dockerTool "docker"}
     environment{
         PATH = "/usr/local/bin:$PATH"
         IMAGENAME = "soumyakatta/react-app"
@@ -22,19 +21,10 @@ pipeline{
                  }
              }
         }
-//         stage("Deploy Image") {
-//          steps{
-//              script {
-//                docker.withRegistry( ‘’, registryCredential ) {
-//                dockerImage.push(“$BUILD_NUMBER”)
-//                dockerImage.push(‘latest’)
-//  }
-//  }
-//  }
-//  }
-    stage('CI') {
-        steps {
-            withCredentials([usernamePassword(
+  
+       stage('CI') {
+            steps {
+               withCredentials([usernamePassword(
                 credentialsId: registryCredential,
                 passwordVariable: 'DOCKER_PASSWORD',
                 usernameVariable: 'DOCKER_USERNAME'
