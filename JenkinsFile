@@ -26,20 +26,20 @@ pipeline{
                 script {
                     withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                        sh "docker push ${ dockerImage}:latest"
+                        sh "docker push ${dockerImage}:latest"
                     }
                 }
             }
         }
-        stage('CD') {
-            steps {
-                sh "docker pull ${IMAGENAME}:latest"
-                echo "pulled successully"
-                // sh "docker stop ${CONTAINER_NAME} || true"
-                // sh "docker rm ${CONTAINER_NAME} || true"
-                // sh "docker run -d --name ${CONTAINER_NAME} ${IMAGENAME}:latest"
-        }
-    }
+    //     stage('CD') {
+    //         steps {
+    //             sh "docker pull ${dockerImage}:latest"
+    //             echo "pulled successully"
+    //             // sh "docker stop ${CONTAINER_NAME} || true"
+    //             // sh "docker rm ${CONTAINER_NAME} || true"
+    //             // sh "docker run -d --name ${CONTAINER_NAME} ${IMAGENAME}:latest"
+    //     }
+    // }
 
     }
 }
