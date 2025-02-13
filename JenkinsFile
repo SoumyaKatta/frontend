@@ -21,20 +21,16 @@ pipeline{
             } 
         }
 
-        stage('Deploy our image') { 
-            steps { 
-                script { 
-                 script {
-                    docker.withRegistry("https://registry.hub.docker.com", 'docker-hub'){
-                       dockerImage.push("${env.BUILD_NUMBER}")
+        stage('Deploy Image') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                        sh "docker push ${ dockerImage}:latest"
                     }
-
-                    }
-
-                } 
-
+                }
             }
-        } 
+        }
         stage('CD') {
             steps {
                 sh "docker pull ${IMAGENAME}:latest"
