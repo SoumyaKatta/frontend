@@ -21,25 +21,6 @@ pipeline{
                  }
              }
         }
-        // stage("deploying image"){
-        //     steps{
-        //         script {
-        //             docker.withRegistry("https://registry.hub.docker.com", 'dockerhub-creds'){
-        //                dockerImage.push("${env.BUILD_NUMBER}")
-        //             }
-        //         }
-        //     }
-        // }
-    //     stage('Deploy Image') {
-    //   steps{
-    //     script {
-    //       docker.withRegistry( '', registryCredential ) {
-    //         dockerImage.push("$BUILD_NUMBER")
-    //          dockerImage.push('latest')
-    //       }
-    //     }
-    //   }
-    // }
     stage('CI') {
         steps {
             withCredentials([usernamePassword(
