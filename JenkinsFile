@@ -21,7 +21,7 @@ pipeline{
             } 
         }
 
-        stage('Deploy Image') {
+        stage('push the docker Image') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: registryCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
@@ -31,15 +31,12 @@ pipeline{
                 }
             }
         }
-    //     stage('CD') {
-    //         steps {
-    //             sh "docker pull ${dockerImage}:latest"
-    //             echo "pulled successully"
-    //             // sh "docker stop ${CONTAINER_NAME} || true"
-    //             // sh "docker rm ${CONTAINER_NAME} || true"
-    //             // sh "docker run -d --name ${CONTAINER_NAME} ${IMAGENAME}:latest"
-    //     }
-    // }
+        stage('pull docker image') {
+            steps {
+                sh "docker pull ${dockerImage}:latest"
+                echo "pulled successully"
+        }
+    }
 
     }
 }
