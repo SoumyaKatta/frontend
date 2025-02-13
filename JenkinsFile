@@ -7,6 +7,8 @@ pipeline{
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
         registryCredential = "dockerhub_creds"
         dockerImage = ''
+        DOCKER_USERNAME = "soumyakatta"
+        DOCKER_PASSWORD = "$oumya@3333"
     }
     stages {
         stage("Install dependencies"){
@@ -17,35 +19,35 @@ pipeline{
         stage("Building image") {
              steps{
                  script{
-                    dockerImage = docker.build IMAGENAME 
-                //    sh "docker build -t ${IMAGENAME} ."
+                    // dockerImage = docker.build IMAGENAME 
+                   sh "docker build -t ${IMAGENAME} ."
                  }
              }
         }
-        stage("Deploy Image") {
-         steps{
-             script {
-               docker.withRegistry( ‘’, registryCredential ) {
-               dockerImage.push(“$BUILD_NUMBER”)
-               dockerImage.push(‘latest’)
- }
- }
- }
- }
-    // stage('CI') {
-    //     steps {
-    //         withCredentials([usernamePassword(
-    //             credentialsId: registryCredential,
-    //             passwordVariable: 'DOCKER_PASSWORD',
-    //             usernameVariable: 'DOCKER_USERNAME'
-    //         )]) {
-    //             sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-    //             sh "docker tag ${IMAGENAME} ${IMAGENAME}:${BUILD_NUMBER}"
-    //             sh "docker push ${IMAGENAME}:${BUILD_NUMBER}"
-    //             sh "docker push ${IMAGENAME}:latest"
-    //         }
-    //     }
-    // }
+//         stage("Deploy Image") {
+//          steps{
+//              script {
+//                docker.withRegistry( ‘’, registryCredential ) {
+//                dockerImage.push(“$BUILD_NUMBER”)
+//                dockerImage.push(‘latest’)
+//  }
+//  }
+//  }
+//  }
+    stage('CI') {
+        steps {
+            withCredentials([usernamePassword(
+                credentialsId: registryCredential,
+                passwordVariable: 'DOCKER_PASSWORD',
+                usernameVariable: 'DOCKER_USERNAME'
+            )]) {
+                sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                sh "docker tag ${IMAGENAME} ${IMAGENAME}:${BUILD_NUMBER}"
+                sh "docker push ${IMAGENAME}:${BUILD_NUMBER}"
+                sh "docker push ${IMAGENAME}:latest"
+            }
+        }
+    }
 
     }
 }
