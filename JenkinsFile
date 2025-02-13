@@ -33,7 +33,7 @@ pipeline{
         }
         stage('pull docker image') {
             steps {
-                sh "docker pull ${dockerImage}:latest"
+                sh "docker pull ${IMAGENAME}:latest"
                 echo "pulled successully"
         }
     }
