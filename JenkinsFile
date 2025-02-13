@@ -1,8 +1,8 @@
 pipeline{
     agent any
-    tools {nodejs "node" dockerTool "docker"}
+    // tools {nodejs "node" dockerTool "docker"}
     environment{
-        PATH = "/usr/local/bin:${PATH}"
+        PATH = "/usr/local/bin:$PATH"
         imageName = "soumyakatta/react-app"
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
         registryCredential = "soumyakatta"
@@ -17,7 +17,7 @@ pipeline{
         stage("Building image") {
              steps{
                  script{
-                    dockerImage = docker.build imageName
+                   sh "docker build -t ${imageName} ."
                  }
              }
         }
