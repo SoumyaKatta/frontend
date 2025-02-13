@@ -28,7 +28,7 @@ pipeline{
                 passwordVariable: 'DOCKER_PASSWORD',
                 usernameVariable: 'DOCKER_USERNAME'
             )]) {
-                sh "docker login -u ${DOCKER_USERNAME}--password-stdin ${DOCKER_PASSWORD}"
+                sh "docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_PASSWORD}"
                 sh "docker tag ${IMAGENAME} ${IMAGENAME}:${BUILD_NUMBER}"
                 sh "docker push ${IMAGENAME}:${BUILD_NUMBER}"
                 sh "docker push ${IMAGENAME}:latest"
