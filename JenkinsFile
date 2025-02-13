@@ -5,7 +5,7 @@ pipeline{
         PATH = "/usr/local/bin:$PATH"
         imageName = "soumyakatta/react-app"
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
-        registryCredential = "soumyakatta"
+        registryCredential = 'dockerhub-creds'
         dockerImage = ''
     }
     stages {
