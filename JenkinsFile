@@ -14,7 +14,7 @@ pipeline{
             }
         }
         stage("Building image") {
-             steps{
+            steps{
                  script{
                     // dockerImage = docker.build IMAGENAME 
                    sh "docker build -t ${IMAGENAME} ."
@@ -22,7 +22,7 @@ pipeline{
              }
         }
   
-       stage('CI') {
+        stage('CI') {
             steps {
                withCredentials([usernamePassword(
                 credentialsId: registryCredential,
