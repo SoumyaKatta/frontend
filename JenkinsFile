@@ -43,7 +43,7 @@ pipeline{
     stage('CI') {
         steps {
             withCredentials([usernamePassword(
-                credentialsId: registryCredential,
+                credentialsId: docker_credentials,
                 passwordVariable: 'DOCKER_PASSWORD',
                 usernameVariable: 'DOCKER_USERNAME'
             )]) {
