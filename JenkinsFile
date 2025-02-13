@@ -13,28 +13,26 @@ pipeline{
                 sh "npm install"
             }
         }
-        stage("Building image") {
-             steps{
-                 script{
-                   sh "docker build -t ${IMAGENAME} ."
-                 }
-             }
+        stage('Building our image') { 
+             steps { 
+                 script {  
+                   dockerImage = docker.build IMAGENAME + ":$BUILD_NUMBER" 
+                }
+            } 
         }
-  
-        stage('CI') {
-            steps {
-               withCredentials([usernamePassword(
-                credentialsId: registryCredential,
-                passwordVariable: 'DOCKER_PASSWORD',
-                usernameVariable: 'DOCKER_USERNAME'
-            )]) {
-                sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                sh "docker tag ${IMAGENAME} ${IMAGENAME}:${BUILD_NUMBER}"
-                sh "docker push ${IMAGENAME}:${BUILD_NUMBER}"
-                sh "docker push ${IMAGENAME}:latest"
+
+        stage('Deploy our image') { 
+            steps { 
+                script { 
+                  docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+
+                    }
+
+                } 
+
             }
-        }
-    }
+        } 
         stage('CD') {
             steps {
                 sh "docker pull ${IMAGENAME}:latest"
