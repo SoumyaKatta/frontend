@@ -7,8 +7,6 @@ pipeline{
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
         registryCredential = "dockerhub_creds"
         dockerImage = ''
-        DOCKER_USERNAME = "soumyakatta"
-        DOCKER_PASSWORD = "$oumya@3333"
     }
     stages {
         stage("Install dependencies"){
