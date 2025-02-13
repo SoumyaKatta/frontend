@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    tools {nodejs "node"}
+    tools {nodejs "node" dockerTool "docker"}
     environment{
         imageName = "soumyakatta/react-app"
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
