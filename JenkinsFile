@@ -5,7 +5,7 @@ pipeline{
         PATH = "/usr/local/bin:$PATH"
         IMAGENAME = "soumyakatta/react-app"
         dockerPath = '/Applications/Docker.app/Contents/Resources/bin/docker'
-        registryCredential = 'docker_credentials'
+        registryCredential = "docker_credentials"
         dockerImage = ''
     }
     stages {
@@ -28,7 +28,7 @@ pipeline{
                 passwordVariable: 'DOCKER_PASSWORD',
                 usernameVariable: 'DOCKER_USERNAME'
             )]) {
-                sh "docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_PASSWORD}"
+                sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                 sh "docker tag ${IMAGENAME} ${IMAGENAME}:${BUILD_NUMBER}"
                 sh "docker push ${IMAGENAME}:${BUILD_NUMBER}"
                 sh "docker push ${IMAGENAME}:latest"
